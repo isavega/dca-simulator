@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../../atoms/Button/Button.tsx";
 import useCurrency from "../../../hooks/useCurrency.tsx";
+import { separateCryptoAndFiat } from "../../../utils/index.tsx";
+import Calendar from "../Calendar/Calendar.tsx";
 
 // Interfaces para definir los tipos de datos del formulario
 interface FormData {
-  cryptomoneda: string;
-  cantidad: number;
-  tipoMoneda: string;
-  frecuencia: string;
-  fechaInicio: string;
-  fechaFinal: string;
+  crypto: string;
+  amount: number;
+  currency: string;
+  frequency: string;
+  startDate: string;
+  endDate: string;
 }
 
 // Styled-components para el formulario y sus elementos
@@ -38,85 +40,101 @@ const FormInput = styled.input`
   width: 100%;
 `;
 
+const FormSelect = styled.select`
+  margin-bottom: 16px;
+  padding: 8px;
+  width: 100%;
+`;
+
+const FormCalendar = styled.div`
+  margin-bottom: 16px;
+`;
+
 const Form: React.FC = () => {
-  // Hook personalizado para obtener las cryptomonedas
   const { availableBaseCurrencies, availableQuoteCurrencies } = useCurrency();
 
+  const currencies = [...availableBaseCurrencies, ...availableQuoteCurrencies];
+
+  const { crypto: cryptoCurrencies, fiat: fiatCurrencies } =
+    separateCryptoAndFiat(currencies);
+
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+
   const [formData, setFormData] = useState<FormData>({
-    cryptomoneda: "",
-    cantidad: 0,
-    tipoMoneda: "",
-    frecuencia: "",
-    fechaInicio: "",
-    fechaFinal: "",
+    crypto: "",
+    amount: 0,
+    currency: "",
+    frequency: "",
+    startDate: "",
+    endDate: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData); // Aquí puedes enviar los datos a la lógica de tu aplicación
-  };
-
   return (
-    <FormContainer onSubmit={handleSubmit}>
+    <FormContainer onSubmit={() => {}}>
       <FormLabel>Cryptomoneda</FormLabel>
-      <FormInput
-        type="text"
+      <FormSelect
         name="cryptomoneda"
-        value={formData.cryptomoneda}
-        onChange={handleInputChange}
+        value={formData.crypto}
+        onChange={() => {}}
         required
-      />
+      >
+        <option value="">Cryptomoneda</option>
+        {cryptoCurrencies?.map((currency, index) => (
+          <option key={index} value={currency}>
+            {currency}
+          </option>
+        ))}
+      </FormSelect>
 
-      <FormLabel>Cantidad de dinero</FormLabel>
+      <FormLabel>Monto inversión</FormLabel>
       <FormInput
         type="number"
         name="cantidad"
-        value={formData.cantidad}
-        onChange={handleInputChange}
+        value={formData.amount}
+        onChange={() => {}}
         required
       />
 
-      <FormLabel>Tipo de moneda</FormLabel>
-      <FormInput
-        type="text"
+      <FormLabel>Moneda</FormLabel>
+      <FormSelect
         name="tipoMoneda"
-        value={formData.tipoMoneda}
-        onChange={handleInputChange}
+        value={formData.currency}
+        onChange={() => {}}
         required
-      />
+      >
+        <option value="">Moneda</option>
+        {fiatCurrencies?.map((currency, index) => (
+          <option key={index} value={currency}>
+            {currency}
+          </option>
+        ))}
+      </FormSelect>
 
       <FormLabel>Frecuencia</FormLabel>
       <FormInput
         type="text"
         name="frecuencia"
-        value={formData.frecuencia}
-        onChange={handleInputChange}
+        value={formData.frequency}
+        onChange={() => {}}
         required
       />
 
       <FormLabel>Fecha de inicio</FormLabel>
-      <FormInput
-        type="date"
-        name="fechaInicio"
-        value={formData.fechaInicio}
-        onChange={handleInputChange}
-        required
-      />
+      <FormCalendar
+        onClick={() => {
+          setShowCalendar(!showCalendar);
+        }}
+      >
+        {formData.startDate}
+      </FormCalendar>
+      {showCalendar && <Calendar />}
 
       <FormLabel>Fecha final</FormLabel>
       <FormInput
         type="date"
         name="fechaFinal"
-        value={formData.fechaFinal}
-        onChange={handleInputChange}
+        value={formData.endDate}
+        onChange={() => {}}
         required
       />
 
