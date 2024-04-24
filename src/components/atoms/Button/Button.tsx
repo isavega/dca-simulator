@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
 const Button = styled.button`
+
+
   margin: 0 auto; /* Centrar el botón */
   margin-bottom: 18px; /* Espacio entre los botones */
   padding: 12px; /* Aumentar el padding */
   border: 1px solid #ccc;
   border-radius: 15px;
   font-size: 18px; /* Aumentar el tamaño de la letra */
-  width: calc(40% - 24px); /* Ancho del botón menos el padding */
+  width: calc(100% - 24px); /* Ancho del botón menos el padding */
   background-color: #007bff; /* Color de fondo */
   color: "#fff"
   cursor: pointer;
