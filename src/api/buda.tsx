@@ -10,10 +10,10 @@ export const getMarkets = async () => {
   }
 };
 
-export const getTrades = async (marketId: string, timestamp: string) => {
+export const getTrades = async (marketId: string, timestamp: number) => {
   try {
     const response = await axios.get<GetTradesResponse>(
-      `/markets/${marketId}/trades?timestamp=${timestamp}`
+      `/markets/${marketId}/trades?timestamp=${timestamp}&limit=5`
     );
 
     return response.data;
