@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../../atoms/Button/Button.tsx";
+import useCurrency from "../../../hooks/useCurrency.tsx";
 
 // Interfaces para definir los tipos de datos del formulario
 interface FormData {
@@ -37,20 +38,10 @@ const FormInput = styled.input`
   width: 100%;
 `;
 
-const SubmitButton = styled.button`
-  width: 100%;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
 const Form: React.FC = () => {
+  // Hook personalizado para obtener las cryptomonedas
+  const { availableBaseCurrencies, availableQuoteCurrencies } = useCurrency();
+
   const [formData, setFormData] = useState<FormData>({
     cryptomoneda: "",
     cantidad: 0,
