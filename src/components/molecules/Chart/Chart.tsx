@@ -1,68 +1,93 @@
 import React, { useCallback, useMemo } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
-import { getTimestamps } from "../../../utils/index.tsx";
+import {
+  getTimestamps,
+  convertTimestampsToSantiagoTime,
+  formatNumberToCLP,
+} from "../../../utils/index.tsx";
 import useTrades from "../../../hooks/useTrades.tsx";
-
-const crypto = "btc";
-const currency = "clp";
-const amount = 1000000;
-const frequency = "daily";
-const startDate = "2021-01-01";
-const endDate = "2021-01-13";
+import useProfit from "../../../hooks/useProfit.tsx";
+import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const Chart: React.FC = () => {
-  const getDates = useMemo(
+  const simulatorData = useSelector((state) => state.trade.simulatorData);
+
+  const { marketId, frequency, startDate, endDate } = simulatorData;
+
+  const timestampsData = useMemo(
     () => getTimestamps(startDate, endDate, frequency),
-    []
+    [startDate, endDate, frequency]
   );
 
-  console.log(getDates);
+  const datesData = useMemo(
+    () => convertTimestampsToSantiagoTime(timestampsData),
+    [timestampsData]
+  );
 
-  const { trades } = useTrades(`BTC-CLP`, getDates);
+  const { averagePrices } = useTrades(marketId, timestampsData);
 
-  const calculatePrices = useCallback(() => {
-    const prices = trades.map((trade) => {
-      const total = trade.trades.entries.reduce(
-        (acc: number, [quantity, price]: [string, string]) => {
-          return acc + parseFloat(quantity) * parseFloat(price);
-        },
-        0
-      );
+  if (
+    datesData.length === 0 ||
+    averagePrices.length === 0 ||
+    !averagePrices ||
+    !datesData
+  ) {
+    return <div>Loading...</div>;
+  }
 
-      const totalQuantity = trade.trades.entries.reduce(
-        (acc: number, [quantity]: [string, string]) => {
-          return acc + parseFloat(quantity);
-        },
-        0
-      );
-
-      return total / totalQuantity;
-    });
-
-    return prices;
-  }, [trades]);
-
-  const calculateTimestamps = useCallback(() => {
-    const timestamps = trades.map((trade) => trade.trades.timestamp);
-    return timestamps;
-  }, [trades]);
-
-  const prices = calculatePrices();
-  const timestamps = calculateTimestamps();
+  const customize = {
+    height: 500,
+    withTooltip: true,
+    legend: { hidden: false },
+    margin: {
+      left: 80,
+      right: 10,
+      top: 80,
+      bottom: 80,
+    },
+  };
 
   return (
-    <LineChart
-      xAxis={[{ data: timestamps }]}
-      series={[
-        {
-          data: prices,
-          area: true,
-        },
-      ]}
-      width={500}
-      height={300}
-    />
+    <>
+      <LineChart
+        className="white-font"
+        title="Valor del portafolio"
+        xAxis={[
+          {
+            label: "Date",
+            data: datesData,
+            tickInterval: datesData,
+            scaleType: "time",
+            valueFormatter: (date) => dayjs(date).format("DD/MM/YYYY"),
+          },
+        ]}
+        series={[
+          {
+            data: averagePrices,
+            area: true,
+            label: "Valor del portafolio",
+            color: "#8884d8", //color del grafico
+          },
+        ]}
+        width={500}
+        {...customize}
+      />
+    </>
   );
 };
 
 export default Chart;
+
+{
+  /* <div>
+        <h4>Dinero invertido: {formatNumberToCLP(amount)}</h4>
+        <h4>Ganancia actual: {formatNumberToCLP(allIn)} </h4>
+        <h4>
+          Valor teórico del portafolio al invertir todo al inicio:{" "}
+          {formatNumberToCLP(allIn)}{" "}
+        </h4>
+        <h4>Valor teórico del portafolio con DCA: {formatNumberToCLP(dca)} </h4>
+        <h4>Rendimiento del portafolio: {profit}% </h4>
+      </div> */
+}
