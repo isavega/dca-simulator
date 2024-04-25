@@ -8,16 +8,21 @@ const SimulatorContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   max-width: 1200px;
-  margin: 40px auto;
+  width: 100%;
 `;
 
 const FormContainer = styled.div`
   flex: 1;
+  width: 20%;
   margin-right: 20px;
 `;
 
 const ChartContainer = styled.div`
   flex: 2;
+  display: flex;
+  justify-content: center;s
+  align-items: center;
+  width: 100%;
 `;
 
 const DCASimulator: React.FC = () => {
