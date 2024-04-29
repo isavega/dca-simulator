@@ -4,7 +4,7 @@ import {
   MONTHLY,
   CryptoCurrency,
   FiatCurrency,
-} from "./constants.tsx";
+} from './constants.tsx';
 
 export const convertToMilleseconds = (
   startYear: number,
@@ -16,14 +16,14 @@ export const convertToMilleseconds = (
   endMonth: number,
   endDay: number,
   endHour: number,
-  endMinute: number
+  endMinute: number,
 ): [number, number] => {
   const start = new Date(
     startYear,
     startMonth - 1,
     startDay,
     startHour,
-    startMinute
+    startMinute,
   );
   const end = new Date(endYear, endMonth - 1, endDay, endHour, endMinute);
 
@@ -41,14 +41,14 @@ export const convertToMilleseconds = (
 
 export const separateCryptoAndFiat = (currencies: string[]) => {
   const cryptoCurrencies: CryptoCurrency[] = [
-    "BTC",
-    "ETH",
-    "BCH",
-    "LTC",
-    "USDC",
-    "USDT",
+    'BTC',
+    'ETH',
+    'BCH',
+    'LTC',
+    'USDC',
+    'USDT',
   ];
-  const fiatCurrencies: FiatCurrency[] = ["CLP", "COP", "PEN", "ARS", "USD"];
+  const fiatCurrencies: FiatCurrency[] = ['CLP', 'COP', 'PEN', 'ARS', 'USD'];
 
   const cryptoList: string[] = [];
   const fiatList: string[] = [];
@@ -69,7 +69,7 @@ export const separateCryptoAndFiat = (currencies: string[]) => {
 export const getTimestamps = (
   startDate: string,
   endDate: string,
-  frequency: string
+  frequency: string,
 ) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -106,13 +106,13 @@ export const getTimestamps = (
 };
 
 export const convertTimestampsToSantiagoTime = (
-  timestamps: number[]
+  timestamps: number[],
 ): Date[] => {
   const MILLIS_PER_HOUR = 60 * 60 * 1000;
   const santiagoTimezoneOffset = -3 * MILLIS_PER_HOUR;
 
   if (!timestamps || !timestamps.length || timestamps.some(isNaN)) {
-    throw new Error("Invalid timestamps provided");
+    throw new Error('Invalid timestamps provided');
   }
 
   const santiagoTimeDates: Date[] = [];
@@ -122,7 +122,7 @@ export const convertTimestampsToSantiagoTime = (
     const santiagoDate = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate()
+      date.getDate(),
     );
     santiagoTimeDates.push(santiagoDate);
   });
@@ -131,25 +131,24 @@ export const convertTimestampsToSantiagoTime = (
 };
 
 export const formatNumberToCLP = (number: number) => {
-  const parts = number.toString().split(".");
-  const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  const decimalPart = parts[1] ? `,${parts[1]}` : "";
+  const parts = number.toString().split('.');
+  const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const decimalPart = parts[1] ? `,${parts[1]}` : '';
   return `$${integerPart}${decimalPart}`;
 };
 
 export const frecuencyMap = {
-  daily: "Diaria",
-  weekly: "Semanal",
-  monthly: "Mensual",
+  daily: 'Diaria',
+  weekly: 'Semanal',
+  monthly: 'Mensual',
 };
 
-// Function to format a date string to "DD-MM-YY" format
+// Function to format a date string from "YYYY-MM-DD" to "DD-MM-YYYY" format
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, "0");
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const year = date.getFullYear().toString().slice(-2);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
   const formattedDate = `${day}-${month}-${year}`;
-
   return formattedDate;
 };

@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback } from "react";
-import { getMarkets } from "../api/buda.tsx";
+import { useEffect, useState, useCallback } from 'react';
+import { getMarkets } from '../api/buda.tsx';
 
 const useCurrency = () => {
   const [markets, setMarkets] = useState<any>([]);
@@ -13,10 +13,10 @@ const useCurrency = () => {
 
   const getCurrencies = useCallback(() => {
     const baseCurrencies = Array.from(
-      new Set(markets?.map((market: any) => market.base_currency))
+      new Set(markets?.map((market: any) => market.base_currency)),
     );
     const quoteCurrencies = Array.from(
-      new Set(markets?.map((market: any) => market.quote_currency))
+      new Set(markets?.map((market: any) => market.quote_currency)),
     );
 
     return { baseCurrencies, quoteCurrencies };

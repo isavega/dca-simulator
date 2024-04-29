@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Form from "../../molecules/Form/Form.tsx";
-import Chart from "../../molecules/Chart/Chart.tsx";
+import React from 'react';
+import styled from 'styled-components';
+import Form from '../../molecules/Form/Form.tsx';
+import Chart from '../../molecules/Chart/Chart.tsx';
 
 const SimulatorContainer = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const FormContainer = styled.div`
 const ChartContainer = styled.div`
   flex: 2;
   display: flex;
-  justify-content: center;s
+  justify-content: center;
   align-items: center;
   width: 100%;
 `;

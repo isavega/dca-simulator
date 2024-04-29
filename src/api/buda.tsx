@@ -1,5 +1,5 @@
-import axios from "axios";
-import { GetMarketsResponse, GetTradesResponse } from "../models/buda";
+import axios from 'axios';
+import { GetMarketsResponse, GetTradesResponse } from '../models/buda';
 
 export const getMarkets = async () => {
   try {
@@ -13,7 +13,7 @@ export const getMarkets = async () => {
 export const getTrades = async (marketId: string, timestamp: number) => {
   try {
     const response = await axios.get<GetTradesResponse>(
-      `/markets/${marketId}/trades?timestamp=${timestamp}&limit=5`
+      `/markets/${marketId}/trades?timestamp=${timestamp}&limit=5`,
     );
 
     return response.data;
