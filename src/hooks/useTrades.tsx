@@ -1,14 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { getTrades } from "../api/buda.tsx";
+import React, { useCallback, useEffect, useState } from 'react';
+import { getTrades } from '../api/buda.tsx';
+import { useDispatch } from 'react-redux';
 
-const useTrades = (marketId: string, timestampArray: Array<number>) => {
+const useTrades = (
+  marketId: string,
+  timestampArray: Array<number>,
+  initialInvestment: number,
+) => {
+  const dispatch = useDispatch();
   const [averagePrices, setAveragePrices] = useState<Array<number>>([]);
 
   useEffect(() => {
+    if (initialInvestment === 0) {
+      return;
+    }
     const fetchTradesAndCalculateAverage = async () => {
       try {
         const tradesData = await Promise.all(
-          timestampArray.map((timestamp) => getTrades(marketId, timestamp))
+          timestampArray.map((timestamp) => getTrades(marketId, timestamp)),
         );
 
         const calculatedPrices = tradesData.map((trade) => {
@@ -30,46 +39,16 @@ const useTrades = (marketId: string, timestampArray: Array<number>) => {
         setAveragePrices(calculatedPrices);
       } catch (error) {
         console.error(
-          "Failed to fetch trades or calculate average prices:",
-          error
+          'Failed to fetch trades or calculate average prices:',
+          error,
         );
       }
     };
 
     fetchTradesAndCalculateAverage();
-  }, [marketId, timestampArray]);
+  }, [marketId, timestampArray, initialInvestment, dispatch]);
 
   return { averagePrices };
 };
 
 export default useTrades;
-
-// const calculatePrices = useCallback(() => {
-//   const prices = trades.map((trade) => {
-//     const total = trade.trades.entries.reduce(
-//       (acc: number, [quantity, price]: [string, string]) => {
-//         return acc + parseFloat(quantity) * parseFloat(price);
-//       },
-//       0
-//     );
-
-//     const totalQuantity = trade.trades.entries.reduce(
-//       (acc: number, [quantity]: [string, string]) => {
-//         return acc + parseFloat(quantity);
-//       },
-//       0
-//     );
-
-//     return total / totalQuantity;
-//   });
-
-//   return prices;
-// }, [trades]);
-
-// const calculateTimestamps = useCallback(() => {
-//   const timestamps = trades.map((trade) => trade.trades.timestamp);
-//   return timestamps;
-// }, [trades]);
-
-// const prices = calculatePrices();
-// const timestamps = calculateTimestamps();
