@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
     "typescript": "^5.4.5",
+    "vercel": "^34.1.5",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
