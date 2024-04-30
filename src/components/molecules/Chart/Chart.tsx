@@ -3,6 +3,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import {
   getTimestamps,
   convertTimestampsToSantiagoTime,
+  formatDateToISO,
 } from '../../../utils/index.tsx';
 import useProfit from '../../../hooks/useProfit.tsx';
 import dayjs from 'dayjs';
@@ -30,7 +31,14 @@ const Chart: React.FC = () => {
     [timestampsData],
   );
 
-  const { profitData } = useProfit(marketId, timestampsData, initialInvestment);
+  const formattedDates = datesData.map(formatDateToISO);
+
+  const { profitData } = useProfit(
+    marketId,
+    timestampsData,
+    formattedDates,
+    initialInvestment,
+  );
   const { evolution, evolutionDCA } = profitData;
 
   const isDataLoading = useCallback(() => {

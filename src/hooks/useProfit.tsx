@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import useTrades from './useTrades.tsx';
-import { setStatistics } from '../redux/slice/tradeSlice.tsx';
+import {
+  setStatistics,
+  setInvestmentTableData,
+} from '../redux/slice/tradeSlice.tsx';
 import { useDispatch } from 'react-redux';
 
 const useProfit = (
   marketId: string,
   timestampsData: number[],
+  datesData: string[],
   initialInvestment: number,
 ) => {
   const dispatch = useDispatch();
@@ -95,9 +99,45 @@ const useProfit = (
         initialInvestment,
       );
 
+    const generateMultiples = (initialAmount: number, n: number): number[] => {
+      const multiples: number[] = [];
+
+      for (let i = 1; i <= n; i++) {
+        multiples.push(initialAmount * i);
+      }
+
+      return multiples;
+    };
+
+    const payloadInvestmentTableData = () => {
+      const periodicInvestment = initialInvestment / datesData.length;
+      const payload = {
+        datesArray: datesData,
+        pricesArray: prices,
+        investmentArray: generateMultiples(
+          periodicInvestment,
+          datesData.length,
+        ),
+        portfolioValueArray: evolutionDCA,
+        amountChangeArray: evolutionDCA.map((value, index) => {
+          return value - evolutionDCA[index - 1] || 0;
+        }),
+        percentageChangeArray: evolutionDCA.map((value, index) => {
+          return (
+            (value - evolutionDCA[index - 1]) / evolutionDCA[index - 1] || 0
+          );
+        }),
+      };
+
+      return { payload };
+    };
+
+    const { payload } = payloadInvestmentTableData();
+
     dispatch(setStatistics({ initialInvestment, returnRate, returnRateDCA }));
+    dispatch(setInvestmentTableData({ ...payload }));
     setProfitData({ evolution, evolutionDCA });
-  }, [prices, timestampsData, initialInvestment, setProfitData, dispatch]);
+  }, [dispatch, marketId, timestampsData, initialInvestment, prices]);
 
   return { profitData };
 };

@@ -42,7 +42,7 @@ const ResultContainer = styled.div`
 
 const TableContainer = styled.div`
   width: 100%;
-  margin-top: 50px;
+  margin: 50px 0 50px 0;
 `;
 
 const DCASimulator: React.FC = () => {

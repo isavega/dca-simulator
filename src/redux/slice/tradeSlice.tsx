@@ -15,6 +15,14 @@ const initialState = {
     returnRate: 0,
     returnRateDCA: 0,
   },
+  investmentTableData: {
+    datesArray: [],
+    pricesArray: [],
+    investmentArray: [],
+    portfolioValueArray: [],
+    amountChangeArray: [],
+    percentageChangeArray: [],
+  },
 };
 
 const tradeSlice = createSlice({
@@ -28,8 +36,12 @@ const tradeSlice = createSlice({
     setStatistics: (state, action) => {
       state.statistics = action.payload;
     },
+    setInvestmentTableData: (state, action) => {
+      state.investmentTableData = action.payload;
+    },
   },
 });
 
-export const { setSimulatorData, setStatistics } = tradeSlice.actions;
+export const { setSimulatorData, setStatistics, setInvestmentTableData } =
+  tradeSlice.actions;
 export default tradeSlice.reducer;

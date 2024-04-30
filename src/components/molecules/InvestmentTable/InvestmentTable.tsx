@@ -6,26 +6,57 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useSelector } from 'react-redux';
+import { formatNumberToCLP } from '../../../utils/index.tsx';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
-}
+type TableRowData = {
+  item: number;
+  datesArray: string[];
+  pricesArray: string[];
+  investmentArray: string[];
+  portfolioValueArray: string[];
+  amountChangeArray: string[];
+  percentageChangeArray: string[];
+};
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+const InvestmentTable = () => {
+  const investmentTableData = useSelector(
+    (state) => state.trade.investmentTableData,
+  );
 
-export default function InvestmentTable() {
+  const {
+    datesArray,
+    pricesArray,
+    investmentArray,
+    portfolioValueArray,
+    amountChangeArray,
+    percentageChangeArray,
+  } = investmentTableData;
+
+  const buildRows = () => {
+    const rows = [];
+    for (let i = 0; i < datesArray.length; i++) {
+      rows.push({
+        item: i + 1,
+        datesArray: datesArray[i],
+        pricesArray: formatNumberToCLP(pricesArray[i]),
+        investmentArray: formatNumberToCLP(
+          Number(investmentArray[i]).toFixed(2),
+        ),
+        portfolioValueArray: formatNumberToCLP(
+          Number(portfolioValueArray[i]).toFixed(2),
+        ),
+        amountChangeArray: formatNumberToCLP(
+          Number(amountChangeArray[i]).toFixed(2),
+        ),
+        percentageChangeArray: `${percentageChangeArray[i].toFixed(2)}%`,
+      });
+    }
+    return rows;
+  };
+
+  const rows: TableRowData[] = buildRows();
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -43,20 +74,24 @@ export default function InvestmentTable() {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.item}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.item}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.datesArray}</TableCell>
+              <TableCell align="right">{row.pricesArray}</TableCell>
+              <TableCell align="right">{row.investmentArray}</TableCell>
+              <TableCell align="right">{row.portfolioValueArray}</TableCell>
+              <TableCell align="right">{row.amountChangeArray}</TableCell>
+              <TableCell align="right">{row.percentageChangeArray}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default InvestmentTable;
