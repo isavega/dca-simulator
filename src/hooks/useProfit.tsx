@@ -51,30 +51,31 @@ const useProfit = (
 
       return { evolution, returnRate };
     };
-
     const calculateInvestmentEvolutionDCA = (
       prices: number[],
-      dates: any[],
+      dates: number[],
       initialInvestment: number,
     ): { evolution: number[]; returnRate: number } => {
       const evolution: number[] = [];
       let currentInvestment = initialInvestment;
-      const periodicInvestment = initialInvestment / dates.length;
+      const periodicInvestment = initialInvestment / (dates.length - 1);
 
       for (let i = 0; i < prices.length; i++) {
-        // Add the periodic investment to the current investment
+        if (i > 0) {
+          // Calcular la inversión periódica basada en la proporción de precio actual al precio inicial
+          const investmentRatio = prices[i] / prices[0];
+          const periodicInvestmentAdjusted =
+            periodicInvestment * investmentRatio;
+          currentInvestment += periodicInvestmentAdjusted;
+        } else {
+          currentInvestment += periodicInvestment - initialInvestment;
+        }
 
-        currentInvestment += periodicInvestment;
-
-        // Adjust the current investment based on the current price
-        currentInvestment =
-          currentInvestment * (prices[i] / prices[i - 1] || 1);
-
-        // Add the current investment value to the evolution array
+        // Agregar el valor actual de la inversión al array de evolución
         evolution.push(currentInvestment);
       }
 
-      // Calculate the return rate of the investment
+      // Calcular la tasa de retorno de la inversión
       const returnRate =
         (currentInvestment - initialInvestment) / initialInvestment;
 
