@@ -93,7 +93,7 @@ const Form: React.FC = () => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputContainer>
-        <h2>DCC Simulator</h2>
+        <h2>DCC Simulator 💰</h2>
       </InputContainer>
 
       <InputContainer>

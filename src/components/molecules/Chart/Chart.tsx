@@ -49,7 +49,8 @@ const Chart: React.FC = () => {
   }, [isDataLoading]);
 
   const customize = {
-    height: 500,
+    height: 700,
+    width: 800,
     withTooltip: true,
     legend: { hidden: false },
     margin: {
@@ -66,37 +67,32 @@ const Chart: React.FC = () => {
         <img src={bitcoinLogo} className="App-logo" alt="logo" />
       ) : (
         <>
-          <div>
-            <LineChart
-              className="white-font"
-              title="Valor del portafolio"
-              xAxis={[
-                {
-                  label: 'Fecha',
-                  data: datesData,
-                  tickInterval: datesData,
-                  scaleType: 'time',
-                  valueFormatter: (date) => dayjs(date).format('DD/MM/YYYY'),
-                },
-              ]}
-              series={[
-                {
-                  data: evolutionDCA,
-                  // area: true,
-                  label: 'DCA',
-                  color: '#8884d8', //color del grafico
-                },
-                {
-                  data: evolution,
-                  // area: true,
-                  label: 'NORMAL',
-                  color: '#82ca9d', //color del grafico
-                },
-              ]}
-              width={500}
-              {...customize}
-            />
-          </div>
+          <LineChart
+            className="white-font"
+            title="Valor del portafolio"
+            xAxis={[
+              {
+                label: 'Fecha',
+                data: datesData,
+                tickInterval: datesData,
+                scaleType: 'time',
+                valueFormatter: (date) => dayjs(date).format('DD/MM/YYYY'),
+              },
+            ]}
+            series={[
+              {
+                data: evolutionDCA,
+                label: 'DCA',
+                color: '#8884d8',
+              },
+              {
+                data: evolution,
+                label: 'Inversión',
+                color: '#82ca9d',
+              },
+            ]}
+            {...customize}
+          />
         </>
       )}
     </>

@@ -7,15 +7,15 @@ import Statistics from '../../molecules/Statistics/Statistics.tsx';
 import InvestmentTable from '../../molecules/InvestmentTable/InvestmentTable.tsx';
 
 const SimulatorContainer = styled.div`
+  width: 1200px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
-  width: 100%;
 `;
 
 const FormContainer = styled.div`
   flex: 1;
-  width: 20%;
+  width: 60%;
   margin-right: 20px;
 `;
 
