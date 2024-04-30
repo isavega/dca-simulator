@@ -10,6 +10,11 @@ const initialState = {
     endDate: '2024-02-01',
     marketId: 'BTC-CLP',
   },
+  statistics: {
+    initialInvestment: 0,
+    returnRate: 0,
+    returnRateDCA: 0,
+  },
 };
 
 const tradeSlice = createSlice({
@@ -20,8 +25,11 @@ const tradeSlice = createSlice({
       state.simulatorData = action.payload;
       state.simulatorData.marketId = `${action.payload.crypto}-${action.payload.currency}`;
     },
+    setStatistics: (state, action) => {
+      state.statistics = action.payload;
+    },
   },
 });
 
-export const { setSimulatorData } = tradeSlice.actions;
+export const { setSimulatorData, setStatistics } = tradeSlice.actions;
 export default tradeSlice.reducer;

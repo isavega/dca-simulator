@@ -15,7 +15,6 @@ function App() {
       <CssBaseline />
       <div className="App">
         <header className="App-header">
-          <h3>DCC Simulator</h3>
           <DCASimulator />
         </header>
       </div>

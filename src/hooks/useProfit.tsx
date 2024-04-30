@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import useTrades from './useTrades.tsx';
+import { setStatistics } from '../redux/slice/tradeSlice.tsx';
+import { useDispatch } from 'react-redux';
 
 const useProfit = (
   marketId: string,
   timestampsData: number[],
   initialInvestment: number,
 ) => {
+  const dispatch = useDispatch();
   const { averagePrices: prices } = useTrades(
     marketId,
     timestampsData,
@@ -14,10 +17,9 @@ const useProfit = (
 
   const [profitData, setProfitData] = useState<{
     evolution: number[];
-    returnRate: number;
+
     evolutionDCA: number[];
-    returnRateDCA: number;
-  }>({ evolution: [], returnRate: 0, evolutionDCA: [], returnRateDCA: 0 });
+  }>({ evolution: [], evolutionDCA: [] });
 
   useEffect(() => {
     if (prices.length !== timestampsData.length || initialInvestment === 0) {
@@ -93,8 +95,9 @@ const useProfit = (
         initialInvestment,
       );
 
-    setProfitData({ evolution, returnRate, evolutionDCA, returnRateDCA });
-  }, [prices, timestampsData, initialInvestment, setProfitData]);
+    dispatch(setStatistics({ initialInvestment, returnRate, returnRateDCA }));
+    setProfitData({ evolution, evolutionDCA });
+  }, [prices, timestampsData, initialInvestment, setProfitData, dispatch]);
 
   return { profitData };
 };

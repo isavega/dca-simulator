@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Form from '../../molecules/Form/Form.tsx';
 import Chart from '../../molecules/Chart/Chart.tsx';
+import { useSelector } from 'react-redux';
+import Statistics from '../../molecules/Statistics/Statistics.tsx';
+import InvestmentTable from '../../molecules/InvestmentTable/InvestmentTable.tsx';
 
 const SimulatorContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: 1200px;
   width: 100%;
 `;
 
@@ -25,16 +27,67 @@ const ChartContainer = styled.div`
   width: 100%;
 `;
 
+const ResultContainer = styled.div`
+  background-color: #f77f00;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+`;
+
+const TableContainer = styled.div`
+  width: 100%;
+  margin-top: 50px;
+`;
+
 const DCASimulator: React.FC = () => {
+  const statistics = useSelector((state) => state.trade.statistics);
+
   return (
-    <SimulatorContainer>
-      <FormContainer>
-        <Form />
-      </FormContainer>
-      <ChartContainer>
-        <Chart />
-      </ChartContainer>
-    </SimulatorContainer>
+    <div>
+      <Statistics
+        initialInvestment={statistics.initialInvestment}
+        returnRate={statistics.returnRate}
+        returnRateDCA={statistics.returnRateDCA}
+      />
+
+      <SimulatorContainer>
+        <FormContainer>
+          <Form />
+        </FormContainer>
+        <ChartContainer>
+          <Chart />
+        </ChartContainer>
+      </SimulatorContainer>
+      <ResultContainer>
+        {statistics.returnRateDCA > statistics.returnRate ? (
+          <p>
+            En el rango de tiempo seleccionado, la estrategia DCA es mejor en un{' '}
+            {(
+              Math.abs(statistics.returnRateDCA - statistics.returnRate) * 100
+            ).toFixed(2)}
+            %.
+          </p>
+        ) : (
+          <p>
+            En el rango de tiempo seleccionado, la estrategia de inversión
+            normal es mejor en un{' '}
+            {(
+              Math.abs(statistics.returnRateDCA - statistics.returnRate) * 100
+            ).toFixed(2)}
+            %.
+          </p>
+        )}
+      </ResultContainer>
+      <TableContainer>
+        <InvestmentTable />
+      </TableContainer>
+    </div>
   );
 };
 

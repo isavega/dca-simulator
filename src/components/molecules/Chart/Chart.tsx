@@ -8,7 +8,6 @@ import useProfit from '../../../hooks/useProfit.tsx';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import bitcoinLogo from '../../../bitcoin.png';
-import Statistics from '../Statistics/Statistics.tsx';
 
 const Chart: React.FC = () => {
   const { simulatorData } = useSelector((state) => state.trade);
@@ -32,7 +31,7 @@ const Chart: React.FC = () => {
   );
 
   const { profitData } = useProfit(marketId, timestampsData, initialInvestment);
-  const { evolution, returnRate, evolutionDCA, returnRateDCA } = profitData;
+  const { evolution, evolutionDCA } = profitData;
 
   const isDataLoading = useCallback(() => {
     if (!datesData || !profitData || initialInvestment === 0) {
@@ -98,11 +97,6 @@ const Chart: React.FC = () => {
               {...customize}
             />
           </div>
-          <Statistics
-            initialInvestment={initialInvestment}
-            returnRate={returnRate}
-            returnRateDCA={returnRateDCA}
-          />
         </>
       )}
     </>
