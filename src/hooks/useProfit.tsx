@@ -58,15 +58,14 @@ const useProfit = (
     ): { evolution: number[]; returnRate: number } => {
       const evolution: number[] = [];
       let currentInvestment = initialInvestment;
-      const periodicInvestment = initialInvestment / (dates.length - 1);
+      let periodicInvestment = initialInvestment / dates.length;
 
       for (let i = 0; i < prices.length; i++) {
         if (i > 0) {
           // Calcular la inversión periódica basada en la proporción de precio actual al precio inicial
-          const investmentRatio = prices[i] / prices[0];
-          const periodicInvestmentAdjusted =
-            periodicInvestment * investmentRatio;
-          currentInvestment += periodicInvestmentAdjusted;
+          const investmentRatio = prices[i] / (prices[i - 1] || prices[0]);
+          currentInvestment =
+            currentInvestment * investmentRatio + periodicInvestment;
         } else {
           currentInvestment += periodicInvestment - initialInvestment;
         }
