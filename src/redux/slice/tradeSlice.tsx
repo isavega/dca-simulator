@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   simulatorData: {
-    crypto: '',
+    crypto: 'BTC',
     amount: 0,
-    currency: '',
+    currency: 'CLP',
     frequency: 'monthly',
-    startDate: '2024-01-01',
-    endDate: '2024-02-01',
+    startDate: '2022-01-01',
+    endDate: '2023-01-01',
     marketId: 'BTC-CLP',
   },
   statistics: {

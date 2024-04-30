@@ -5,6 +5,8 @@ import {
   separateCryptoAndFiat,
   frecuencyMap,
   formatDate,
+  formatNumberToCLP,
+  formatDateCalendar,
 } from '../../../utils/index.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSimulatorData } from '../../../redux/slice/tradeSlice.tsx';
@@ -83,8 +85,6 @@ const Form: React.FC = () => {
 
     setFormData({
       ...formData,
-      startDate: formatDate(formData.startDate),
-      endDate: formatDate(formData.endDate),
     });
 
     dispatch(setSimulatorData(formData));
@@ -145,7 +145,7 @@ const Form: React.FC = () => {
             id="outlined-adornment-amount"
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
             label="Amount"
-            value={formData.amount}
+            value={formData.amount || 0}
             onChange={(e) =>
               setFormData({ ...formData, amount: parseFloat(e.target.value) })
             }
@@ -172,7 +172,7 @@ const Form: React.FC = () => {
         <FormLabel>Fecha Inicio</FormLabel>
         <FormInput
           type="date"
-          value={formData.startDate}
+          value={formatDateCalendar(formData.startDate)}
           onChange={(e) =>
             setFormData({ ...formData, startDate: e.target.value })
           }
@@ -185,10 +185,11 @@ const Form: React.FC = () => {
         <FormLabel>Fecha final</FormLabel>
         <FormInput
           type="date"
-          value={formData.endDate}
+          value={formatDateCalendar(formData.endDate)}
           onChange={(e) =>
             setFormData({ ...formData, endDate: e.target.value })
           }
+          min="2016-01-02"
           required
         />
       </InputContainer>
@@ -200,6 +201,7 @@ const Form: React.FC = () => {
         loading={false}
         loadingPosition="start"
         fullWidth={true}
+        disabled={formData.amount === 0}
         startIcon={<SendIcon />}
       >
         Calcular

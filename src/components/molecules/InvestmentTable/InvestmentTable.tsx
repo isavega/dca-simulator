@@ -20,6 +20,7 @@ type TableRowData = {
 };
 
 const InvestmentTable = () => {
+  const marketId = useSelector((state) => state.trade.simulatorData.marketId);
   const investmentTableData = useSelector(
     (state) => state.trade.investmentTableData,
   );
@@ -64,7 +65,7 @@ const InvestmentTable = () => {
           <TableRow>
             <TableCell>#</TableCell>
             <TableCell align="right">Fecha</TableCell>
-            <TableCell align="right">Precio crypto</TableCell>
+            <TableCell align="right">Precio {marketId}</TableCell>
             <TableCell align="right">Monto invertido</TableCell>
             <TableCell align="right">Valor del portafolio</TableCell>
             <TableCell align="right">Variación $</TableCell>

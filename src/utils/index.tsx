@@ -39,24 +39,38 @@ export const convertToMilleseconds = (
   return [timestampStartMilliseconds, timestampEndMilliseconds];
 };
 
-export const separateCryptoAndFiat = (currencies: string[]) => {
-  const cryptoCurrencies: CryptoCurrency[] = [
+export const separateCryptoAndFiat = (
+  currencies: string[],
+): { crypto: string[]; fiat: string[] } => {
+  const cryptoCurrenciesSet = new Set<CryptoCurrency>([
     'BTC',
     'ETH',
     'BCH',
     'LTC',
     'USDC',
     'USDT',
-  ];
-  const fiatCurrencies: FiatCurrency[] = ['CLP', 'COP', 'PEN', 'ARS', 'USD'];
+  ]);
+  const fiatCurrenciesSet = new Set<FiatCurrency>([
+    'CLP',
+    'COP',
+    'PEN',
+    'ARS',
+    'USD',
+  ]);
 
   const cryptoList: string[] = [];
   const fiatList: string[] = [];
 
   currencies?.forEach((currency) => {
-    if (cryptoCurrencies.includes(currency as CryptoCurrency)) {
+    if (
+      cryptoCurrenciesSet.has(currency as CryptoCurrency) &&
+      !cryptoList.includes(currency)
+    ) {
       cryptoList.push(currency);
-    } else if (fiatCurrencies.includes(currency as FiatCurrency)) {
+    } else if (
+      fiatCurrenciesSet.has(currency as FiatCurrency) &&
+      !fiatList.includes(currency)
+    ) {
       fiatList.push(currency);
     }
   });
@@ -130,11 +144,14 @@ export const convertTimestampsToSantiagoTime = (
   return santiagoTimeDates;
 };
 
-export const formatNumberToCLP = (number: number) => {
+export const formatNumberToCLP = (number: number, simbol: boolean = true) => {
   const parts = number.toString().split('.');
   const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const decimalPart = parts[1] ? `,${parts[1]}` : '';
-  return `$${integerPart}${decimalPart}`;
+  if (simbol) {
+    return `$${integerPart}${decimalPart}`;
+  }
+  return `${integerPart}${decimalPart}`;
 };
 
 export const frecuencyMap = {
@@ -150,6 +167,16 @@ export const formatDate = (dateString) => {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear().toString();
   const formattedDate = `${day}-${month}-${year}`;
+  return formattedDate;
+};
+
+export const formatDateCalendar = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+  const formattedDate = `${year}-${month}-${day}`;
+
   return formattedDate;
 };
 
