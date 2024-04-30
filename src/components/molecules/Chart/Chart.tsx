@@ -3,12 +3,12 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import {
   getTimestamps,
   convertTimestampsToSantiagoTime,
-  formatNumberToCLP,
 } from '../../../utils/index.tsx';
 import useProfit from '../../../hooks/useProfit.tsx';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import bitcoinLogo from '../../../bitcoin.png';
+import Statistics from '../Statistics/Statistics.tsx';
 
 const Chart: React.FC = () => {
   const { simulatorData } = useSelector((state) => state.trade);
@@ -98,23 +98,11 @@ const Chart: React.FC = () => {
               {...customize}
             />
           </div>
-          <div>
-            <h4>Dinero invertido: {formatNumberToCLP(initialInvestment)}</h4>
-            <h4>Retorno de inversión: {returnRate * 100}%</h4>
-            <h4>Retorno de inversión con DCA: {returnRateDCA * 100}%</h4>
-            {returnRateDCA > returnRate ? (
-              <h4>
-                En el rango de tiempo seleccionado, la estraegia DCA es mejor en
-                un {Math.abs(returnRateDCA - returnRate) * 100}%.
-              </h4>
-            ) : (
-              <h4>
-                n el rango de tiempo seleccionado, la estraegia de inversión
-                normal es mejor en un{' '}
-                {Math.abs(returnRateDCA - returnRate) * 100}%.
-              </h4>
-            )}
-          </div>
+          <Statistics
+            initialInvestment={initialInvestment}
+            returnRate={returnRate}
+            returnRateDCA={returnRateDCA}
+          />
         </>
       )}
     </>
