@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "https://dca-simulator-coral.vercel.app/markets",
+      "source": ":path*/markets",
       "destination": "https://www.buda.com/api/v2/markets"
     }
   ]
