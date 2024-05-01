@@ -11,12 +11,12 @@ import { formatNumberToCLP } from '../../../utils/index.tsx';
 
 type TableRowData = {
   item: number;
-  datesArray: string[];
-  pricesArray: string[];
-  investmentArray: string[];
-  portfolioValueArray: string[];
-  amountChangeArray: string[];
-  percentageChangeArray: string[];
+  date: string;
+  price: string;
+  investment: string;
+  portfolioValue: string;
+  amountChange: string;
+  percentageChange: string;
 };
 
 const InvestmentTable = () => {
@@ -35,22 +35,16 @@ const InvestmentTable = () => {
   } = investmentTableData;
 
   const buildRows = () => {
-    const rows = [];
+    const rows: TableRowData[] = [];
     for (let i = 0; i < datesArray.length; i++) {
       rows.push({
         item: i + 1,
-        datesArray: datesArray[i],
-        pricesArray: formatNumberToCLP(pricesArray[i]),
-        investmentArray: formatNumberToCLP(
-          Number(investmentArray[i]).toFixed(2),
-        ),
-        portfolioValueArray: formatNumberToCLP(
-          Number(portfolioValueArray[i]).toFixed(2),
-        ),
-        amountChangeArray: formatNumberToCLP(
-          Number(amountChangeArray[i]).toFixed(2),
-        ),
-        percentageChangeArray: `${percentageChangeArray[i].toFixed(2)}%`,
+        date: datesArray[i],
+        price: formatNumberToCLP(pricesArray[i]),
+        investment: formatNumberToCLP(investmentArray[i].toFixed(2)),
+        portfolioValue: formatNumberToCLP(portfolioValueArray[i].toFixed(2)),
+        amountChange: formatNumberToCLP(amountChangeArray[i].toFixed(2)),
+        percentageChange: `${percentageChangeArray[i].toFixed(2)}%`,
       });
     }
     return rows;
@@ -81,12 +75,12 @@ const InvestmentTable = () => {
               <TableCell component="th" scope="row">
                 {row.item}
               </TableCell>
-              <TableCell align="right">{row.datesArray}</TableCell>
-              <TableCell align="right">{row.pricesArray}</TableCell>
-              <TableCell align="right">{row.investmentArray}</TableCell>
-              <TableCell align="right">{row.portfolioValueArray}</TableCell>
-              <TableCell align="right">{row.amountChangeArray}</TableCell>
-              <TableCell align="right">{row.percentageChangeArray}</TableCell>
+              <TableCell align="right">{row.date}</TableCell>
+              <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="right">{row.investment}</TableCell>
+              <TableCell align="right">{row.portfolioValue}</TableCell>
+              <TableCell align="right">{row.amountChange}</TableCell>
+              <TableCell align="right">{row.percentageChange}</TableCell>
             </TableRow>
           ))}
         </TableBody>
