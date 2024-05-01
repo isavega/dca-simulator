@@ -11,12 +11,25 @@ const SimulatorContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const FormContainer = styled.div`
   flex: 1;
   width: 60%;
   margin-right: 20px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-right: 0;
+    margin-bottom: 20px;
+    margin-left: 45%;
+  }
 `;
 
 const ChartContainer = styled.div`
@@ -25,6 +38,12 @@ const ChartContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    width: 90%;
+    margin-left: 45%;
+  }
 `;
 
 const ResultContainer = styled.div`
@@ -38,11 +57,25 @@ const ResultContainer = styled.div`
   margin-top: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
+  @media (max-width: 768px) {
+    margin: 20px;
+    width: 40%;
+    margin-left: 55%;
+    height: 100px;
+    align-text: left;
+    justify-content: left;
+    padding: 30px;
+    fonz-size: 30px;
+  }
 `;
 
 const TableContainer = styled.div`
   width: 100%;
   margin: 50px 0 50px 0;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 12%;
+  }
 `;
 
 const DCASimulator: React.FC = () => {

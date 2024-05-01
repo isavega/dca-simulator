@@ -34,13 +34,16 @@ const FormContainer = styled.form`
   align-items: center;
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 768px;
   width: 100%;
   margin: auto;
   font-size: 18px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  @media (max-width: 768px) {
+    margin-left: 17%;
+  }
 `;
 
 const FormLabel = styled.label`
@@ -53,6 +56,9 @@ const FormInput = styled.input`
   margin-bottom: 16px;
   padding: 8px;
   width: 100%;
+  @media (max-width: 768px) {
+    margin-bottom: 3%;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -60,6 +66,9 @@ const InputContainer = styled.div`
   flex-direction: column;
   width: 100%;
   margin-bottom: 16px;
+  @media (max-width: 768px) {
+    margin-bottom: 4%;
+  }
 `;
 
 const Form: React.FC = () => {

@@ -12,6 +12,13 @@ const StatisticsContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    background-color: transparent;
+    margin-top: 5%;
+  }
 `;
 
 interface CardProps {
@@ -21,7 +28,6 @@ interface CardProps {
 
 const CardContainer = styled.div`
   justify-content: center;
-  min-width: 300px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,6 +35,13 @@ const CardContainer = styled.div`
   padding: 10px;
   background-color: #f77f00;
   border-radius: 10px;
+  min-width: 300px;
+
+  @media (max-width: 768px) {
+    margin: 10px 0;
+    width: 50%;
+    margin-left: 50%;
+  }
 `;
 
 const CardTitle = styled.h3`
