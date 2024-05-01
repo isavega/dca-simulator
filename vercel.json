@@ -3,6 +3,10 @@
     {
       "source": ":path*/markets",
       "destination": "https://www.buda.com/api/v2/markets"
+    },
+    {
+      "source": ":path*/markets/:path*",
+      "destination": "https://www.buda.com/api/v2/markets/:path*"
     }
   ]
 }
