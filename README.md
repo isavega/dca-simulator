@@ -6,7 +6,7 @@ Una estrategia popular de inversión corresponde al DCA (Dollar Cost Average). E
 
 Vercel Workflow para CD
 
-[DCA SIMULATOR](https://budapuntocom.notion.site/Simulador-de-DCA-15a725552ecd451b85e31db45d46ce83](https://dca-simulator-eight.vercel.app/))
+[DCA SIMULATOR](https://dca-simulator-eight.vercel.app/))
 
 ## Test
 
