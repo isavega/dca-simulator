@@ -4,8 +4,6 @@ import useCurrency from '../../../hooks/useCurrency.tsx';
 import {
   separateCryptoAndFiat,
   frecuencyMap,
-  formatDate,
-  formatNumberToCLP,
   formatDateCalendar,
 } from '../../../utils/index.tsx';
 import { useDispatch, useSelector } from 'react-redux';

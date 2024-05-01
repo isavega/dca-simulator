@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getTrades } from '../api/buda.tsx';
 import { useDispatch } from 'react-redux';
 
@@ -33,7 +33,7 @@ const useTrades = (
           });
 
           const averagePrice = totalAmount > 0 ? totalPrice / totalAmount : 0;
-          return Math.round(averagePrice * 100) / 100; // Truncar a 2 decimales
+          return Math.round(averagePrice * 100) / 100;
         });
 
         setAveragePrices(calculatedPrices);
