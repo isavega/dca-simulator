@@ -6,8 +6,8 @@ const initialState = {
     amount: 0,
     currency: 'CLP',
     frequency: 'monthly',
-    startDate: '2022-01-01',
-    endDate: '2023-01-01',
+    startDate: '2023-05-02',
+    endDate: '2024-05-02',
     marketId: 'BTC-CLP',
   },
   statistics: {

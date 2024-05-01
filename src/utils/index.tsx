@@ -79,43 +79,37 @@ export const separateCryptoAndFiat = (
 };
 
 // Function to get the timestamps between two dates
-
 export const getTimestamps = (
   startDate: string,
   endDate: string,
   frequency: string,
-) => {
+): number[] => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  const timestamps: Array<number> = [];
+  // Set time to 12:00:00 for Santiago de Chile (CLST, UTC-3)
+  start.setUTCHours(16, 0, 0);
+  end.setUTCHours(16, 0, 0);
 
-  if (frequency === DAILY) {
-    for (
-      let date = new Date(start);
-      date < end;
-      date.setDate(date.getDate() + 1)
-    ) {
-      timestamps.push(date.getTime());
-    }
-  } else if (frequency === WEEKLY) {
-    for (
-      let date = new Date(start);
-      date < end;
-      date.setDate(date.getDate() + 7)
-    ) {
-      timestamps.push(date.getTime());
-    }
-  } else if (frequency === MONTHLY) {
-    for (
-      let date = new Date(start);
-      date < end;
-      date.setMonth(date.getMonth() + 1)
-    ) {
-      timestamps.push(date.getTime());
+  const timestamps: number[] = [];
+  let currentDate = new Date(start);
+
+  const isEndReached = (current: Date, target: Date): boolean => {
+    return current.getTime() >= target.getTime();
+  };
+
+  while (!isEndReached(currentDate, end)) {
+    timestamps.push(currentDate.getTime());
+    if (frequency === DAILY) {
+      currentDate.setDate(currentDate.getDate() + 1);
+    } else if (frequency === WEEKLY) {
+      currentDate.setDate(currentDate.getDate() + 7);
+    } else if (frequency === MONTHLY) {
+      currentDate.setMonth(currentDate.getMonth() + 1);
     }
   }
 
+  timestamps.push(end.getTime());
   return timestamps;
 };
 

@@ -184,6 +184,7 @@ const Form: React.FC = () => {
             setFormData({ ...formData, startDate: e.target.value })
           }
           min="2016-01-01"
+          max={formatDateCalendar(new Date())}
           required
         />
       </InputContainer>
@@ -197,6 +198,7 @@ const Form: React.FC = () => {
             setFormData({ ...formData, endDate: e.target.value })
           }
           min="2016-01-02"
+          max={formatDateCalendar(new Date())}
           required
         />
       </InputContainer>
